@@ -186,84 +186,6 @@
                 <key>sourceSize</key>
                 <string>{16,16}</string>
             </dict>
-            <key>Tiles015.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{38,74},{16,16}}</string>
-                <key>offset</key>
-                <string>{0,0}</string>
-                <key>rotated</key>
-                <false/>
-                <key>sourceColorRect</key>
-                <string>{{0,0},{16,16}}</string>
-                <key>sourceSize</key>
-                <string>{16,16}</string>
-            </dict>
-            <key>Tiles016.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{2,92},{16,16}}</string>
-                <key>offset</key>
-                <string>{0,0}</string>
-                <key>rotated</key>
-                <false/>
-                <key>sourceColorRect</key>
-                <string>{{0,0},{16,16}}</string>
-                <key>sourceSize</key>
-                <string>{16,16}</string>
-            </dict>
-            <key>Tiles017.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{20,92},{16,16}}</string>
-                <key>offset</key>
-                <string>{0,0}</string>
-                <key>rotated</key>
-                <false/>
-                <key>sourceColorRect</key>
-                <string>{{0,0},{16,16}}</string>
-                <key>sourceSize</key>
-                <string>{16,16}</string>
-            </dict>
-            <key>Tiles018.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{38,92},{16,16}}</string>
-                <key>offset</key>
-                <string>{0,0}</string>
-                <key>rotated</key>
-                <false/>
-                <key>sourceColorRect</key>
-                <string>{{0,0},{16,16}}</string>
-                <key>sourceSize</key>
-                <string>{16,16}</string>
-            </dict>
-            <key>Tiles019.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{2,110},{16,16}}</string>
-                <key>offset</key>
-                <string>{0,0}</string>
-                <key>rotated</key>
-                <false/>
-                <key>sourceColorRect</key>
-                <string>{{0,0},{16,16}}</string>
-                <key>sourceSize</key>
-                <string>{16,16}</string>
-            </dict>
-            <key>Tiles020.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{20,110},{16,16}}</string>
-                <key>offset</key>
-                <string>{0,0}</string>
-                <key>rotated</key>
-                <false/>
-                <key>sourceColorRect</key>
-                <string>{{0,0},{16,16}}</string>
-                <key>sourceSize</key>
-                <string>{16,16}</string>
-            </dict>
         </dict>
         <key>metadata</key>
         <dict>
@@ -274,7 +196,7 @@
             <key>size</key>
             <string>{64,128}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:f9f6e45986868495dd380c8aa63160b9:944025ae10829c0b834fa6db102fed4d:bb1a2e1efa4682e6b1b643123371c312$</string>
+            <string>$TexturePacker:SmartUpdate:6a95f03cf8f290ff68876bb5cb4c7607:1/1$</string>
             <key>textureFileName</key>
             <string>Level Type A.png</string>
         </dict>

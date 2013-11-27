@@ -393,8 +393,11 @@ public class OTContainer : MonoBehaviour
         if (dirtyContainer || !isReady)
 			CleanContainer();
 		
-		if (isReady && generateSprites)
+		if (isReady && generateSprites && !Application.isPlaying)
+		{
 			GenerateSprites();		
+			CheckModifications();
+		}
     }
 
     void OnDestroy()

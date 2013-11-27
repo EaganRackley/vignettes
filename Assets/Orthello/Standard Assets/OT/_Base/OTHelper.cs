@@ -1,7 +1,6 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using System.Xml;
 
 /// <summary>
 /// Useful Orthello static helper functions
@@ -88,24 +87,22 @@ public class OTHelper {
 		return  tex;
 	}
 	/// <summary>
-	/// loads xml from resources
+	/// Get an XmlDataReader from a resource (xml) text asset
 	/// </summary>
-	public static XmlDocument ResourceXML(string filename)
+	public static OTXMLDataReader ResourceXML(string filename)
 	{
-		XmlDocument xml = null;
 		TextAsset txt = Resources.Load(filename, typeof(TextAsset)) as TextAsset;
 		if (txt!=null)
 		{
 			try
 			{
-				xml.LoadXml(txt.text);
+				return new OTXMLDataReader(filename,txt);
 			}
 			catch(System.Exception)
 			{
-				xml = null;
 			}
 		}
-		return  xml;
+		return  null;
 	}
 	
 	/// <summary>

@@ -910,6 +910,16 @@ public class OTObject : MonoBehaviour
 			
 			break;
 			
+			case "cancel":
+				// restore depth and alpha
+				if (dragDepth>-1000 && dragDepth<1000)
+					depth = restoreDepth;
+				if (this is OTSprite)
+					(this as OTSprite).alpha = restoreAlpha;
+				dropTarget = null;
+			break;
+			
+			
 			case "end":
 			
 				_dropTarget = OT.ObjectUnderPoint(Input.mousePosition, new OTObject[]{}, new OTObject[]{this} );								

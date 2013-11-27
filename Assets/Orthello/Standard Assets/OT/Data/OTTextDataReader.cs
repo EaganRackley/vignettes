@@ -45,7 +45,7 @@ public class OTTextDataReader : OTDataReader {
 			}
 		}
 		else		
-		if (source.IndexOf("://")>=0)
+		if (source.IndexOf("http://")==0 || source.IndexOf("https://")==0 || source.IndexOf("file://")==0)
 		{
 			// load as url using the Orthello OT main object
 			loadingUrl=true;
@@ -53,6 +53,10 @@ public class OTTextDataReader : OTDataReader {
 		}
 		else
 		{
+#if UNITY_METRO			
+			_text = source;
+			Available();
+#else
 			if (File.Exists(source))
 			{
 				StreamReader streamReader = new StreamReader(source);
@@ -61,6 +65,12 @@ public class OTTextDataReader : OTDataReader {
 				if (text!="" && !(this is OTXMLDataReader))
 					Available();
 			}
+			else
+			{
+				_text = source;
+				Available();
+			}
+#endif
 		}				
 		return _available;
 	}
