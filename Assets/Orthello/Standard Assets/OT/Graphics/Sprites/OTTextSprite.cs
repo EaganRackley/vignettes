@@ -154,7 +154,7 @@ public class OTTextSprite : OTSprite
 						
 			if (data==null || frame.name=="")
 			{
-				byte b = System.Text.Encoding.ASCII.GetBytes("?")[0];
+				byte b = System.Text.Encoding.UTF8.GetBytes("?")[0];
 				data = atlas.DataByName(""+b);
 				frame = atlas.FrameByName(""+b);			
 			}

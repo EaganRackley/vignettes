@@ -48,6 +48,15 @@ public class OTDataReader : Object {
 		
 		return lookup[id];
 	}
+		
+	public virtual object GetData (object dsData, int row, string variable)
+	{
+		return null;
+	}
+	public virtual int RowCount (object dsData)
+	{
+		return 0;
+	}	
 	
 	
 	protected void Available()
@@ -101,9 +110,7 @@ public class OTDataReader : Object {
 	/// </summary>
 	public virtual bool Open()
 	{
-		_row = 0;
 		_available = false;
-		datasetRows.Clear();
 		return _available;
 	}	
 
@@ -122,53 +129,77 @@ public class OTDataReader : Object {
 	{		
 		this._id = id;			
 	}
-		
-	protected virtual int LoadDataSet(string dataId, string dataset)
+			
+	protected virtual object OpenDataset(object data, string datasource)
 	{
-		return 0;
+		return null;
 	}
-
-	Dictionary<string , int> datasetRows = new Dictionary<string, int>();
+		
+	protected object OpenDataset(string datasource)
+	{
+		return OpenDataset(null,datasource);
+	}
+	
 	/// <summary>
 	/// Loads a dataset
 	/// </summary>
 	/// <remarks>
 	/// This first row of this dataset becomes the active dataset row
 	/// </remarks>
-	public void DataSet(string dataset, string datasource)
+	public OTDataset Dataset(string datasource)
 	{		
-		dataset = dataset.ToLower();
-		int _rows = LoadDataSet(dataset, datasource);
-		if (_rows>0)
-		{
-			datasetRows.Add(dataset,_rows);
-			_dataset = dataset;
-			_row = 0;
-		}
-		return;
-	}
+		return new OTDataset(this,OpenDataset(datasource));
+	}							
 	
-	string _dataset = "";
 	/// <summary>
-	/// Gets or sets the active dataset.
+	/// Loads a sub dataset within the current row of a dataset
 	/// </summary>
-	public string dataset
+	/// <remarks>
+	/// This first row of this dataset becomes the active dataset row
+	/// </remarks>
+	public OTDataset Dataset(object data,string datasource)
+	{		
+		return new OTDataset(this,OpenDataset(data,datasource));
+	}							
+}
+
+public class OTDataset
+{
+	object _data;
+	OTDataReader reader;
+	
+	public object data
 	{
 		get
 		{
-			return _dataset;
-		}
-		set
-		{
-			string v = value.ToLower();
-			if (datasetRows.ContainsKey(v))
-				_dataset = v;
-			else
-				_dataset = "";
+			return _data;
 		}
 	}
+	
+	/// <summary>
+	/// Gets a (sub)dataset from the current record of this dataset
+	/// </summary>
+	public OTDataset Dataset(string datasource)
+	{		
+		return reader.Dataset(this,datasource);
+	}							
+		
+	public OTDataset(OTDataReader reader, object data)
+	{
+		this.reader = reader;
+		this._data = data;
 
-
+		_row = -1;
+		_bof = _eof = true;
+		
+		if (data!=null)
+		{
+			_row = 0;
+			_bof = _eof = false;
+		}
+		
+	}
+	
 	/// <summary>
 	/// Gets or sets the active row of the current dataset
 	/// </summary>
@@ -176,13 +207,14 @@ public class OTDataReader : Object {
 	{
 		get
 		{
-			if (dataset == "")
-				throw new System.Exception("No dataset active!");
-			return datasetRows[dataset];
+			if (data == null)
+				return 0;
+			else
+				return reader.RowCount(data);
 		}
 	}
 	
-	int _row = 0;
+	int _row = -1;
 	/// <summary>
 	/// Gets or sets the active row of the current dataset
 	/// </summary>
@@ -190,16 +222,11 @@ public class OTDataReader : Object {
 	{
 		get
 		{
-			if (dataset == "")
-				throw new System.Exception("No dataset active!");
 			return _row;
 		}
 		set
 		{
-			if (dataset == "")
-				throw new System.Exception("No dataset active!");
-			
-			if (value<0 || value>=datasetRows[dataset])
+			if (data==null || value<0 || value>=rowCount)
 				throw new System.Exception("Invalid dataset row!");
 			else
 			{
@@ -263,6 +290,8 @@ public class OTDataReader : Object {
 	{
 		get
 		{
+			if (data==null)
+				return true;			
 			return _eof;
 		}
 	}
@@ -275,6 +304,8 @@ public class OTDataReader : Object {
 	{
 		get
 		{
+			if (data==null)
+				return true;
 			return _bof;
 		}
 	}
@@ -287,16 +318,14 @@ public class OTDataReader : Object {
 	
 	object Data(string variable)
 	{
-		if (_dataset == "")
-			throw new System.Exception("No dataset active!");
-		return GetData(variable);
+		return reader.GetData(data,row,variable);
 	}
 	
 	
 	/// <summary>
 	/// Gets data as a string from the reader
 	/// </summary>
-	public string StringData(string variable)
+	public string AsString(string variable)
 	{
 		try
 		{
@@ -311,7 +340,7 @@ public class OTDataReader : Object {
 	/// <summary>
 	/// Gets data as an integer from the reader
 	/// </summary>
-	public int IntData(string variable)
+	public int AsInt(string variable)
 	{
 		try
 		{
@@ -326,7 +355,7 @@ public class OTDataReader : Object {
 	/// <summary>
 	/// Gets data as an integer from the reader
 	/// </summary>
-	public float FloatData(string variable)
+	public float AsFloat(string variable)
 	{
 		try
 		{
@@ -337,11 +366,11 @@ public class OTDataReader : Object {
 			return 0.0f;
 		}
 	}
-
+	
 	/// <summary>
 	/// Gets data as an integer from the reader
 	/// </summary>
-	public bool BoolData(string variable)
+	public bool AsBool(string variable)
 	{
 		try
 		{
@@ -351,11 +380,5 @@ public class OTDataReader : Object {
 		{			
 			return false;
 		}
-	}
-			
-}
-
-public class OTDataSet
-{
-	
+	}	
 }

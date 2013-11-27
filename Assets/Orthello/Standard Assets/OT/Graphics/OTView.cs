@@ -517,7 +517,6 @@ public class OTView : MonoBehaviour
 	}
 	
 	bool getRect = false;
-	bool recordPrefab = false;
 	void EditorSettings()
 	{
 		if (camera == null)
@@ -661,7 +660,7 @@ public class OTView : MonoBehaviour
 	}
 	
     // Update is called once per frame
-    
+    bool recordPrefab = false;
     public void Update()
     {
 		if (!OT.isValid) return;

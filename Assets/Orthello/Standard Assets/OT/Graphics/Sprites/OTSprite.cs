@@ -149,6 +149,7 @@ public class OTSprite : OTObject
 			{
 	            _image = value;
 				_spriteContainer = null;
+				_defaultImage = null;
 				CheckSettings();
 				Clean();
 				Invoke("Reset",0.1f);
@@ -1051,7 +1052,12 @@ public class OTSprite : OTObject
 					if (!_newSprite && !oSize.Equals(Vector2.zero))
 						baseSize = oSize / OT.view.sizeFactor;	
 					else
-						baseSize = fr.size;
+					{
+						if (_newSprite)
+							baseSize = size;
+						else
+							baseSize = fr.size;					
+					}
 					_newSprite = false;
 				}				
 				

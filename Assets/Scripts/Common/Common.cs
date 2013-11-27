@@ -36,6 +36,8 @@ namespace mms.common
         public const string WATER_COLLIDER  = "Water";
         public const string GROUND_COLLIDER = "Ground";
         public const string WALL_COLLIDER   = "Wall";
+
+		public const string PLAYER_TAG		= "Player";
 	}
 
 }

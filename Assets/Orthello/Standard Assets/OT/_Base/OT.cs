@@ -70,7 +70,7 @@ public class OT : MonoBehaviour
 	public bool _debug = false;
 	public bool _reset = false;	
 	public bool startPassive = false;
-	public static string version  = "2.8";
+	public static string version  = "2.9";
 	
 	static bool _passive = false;
 	static bool _createPassive = false;
@@ -484,6 +484,16 @@ public class OT : MonoBehaviour
 		DontDestroyOnLoad(o.gameObject);
 	}
 	
+	
+	/// <summary>
+	/// Cancels the drag operation of a specific object
+	/// </summary>
+	public static void CancelDrag(OTObject dragObject)
+	{
+		if (isValid)
+			instance._CancelDrag(dragObject);
+	}
+	
 	/// <summary>
 	/// Get world bounds of a game object
 	/// </summary>
@@ -814,7 +824,29 @@ public class OT : MonoBehaviour
 		if (isValid)
 			instance._NotControlling(o);		
 	}	
-
+	
+    /// <summary>
+    /// Checks if we are over a specific object based on its name
+    /// </summary>
+    /// <remarks>
+    /// This function will checks if it can find a sprite or a gameobject
+    /// </remarks>
+    public static bool Over(string name)
+    {
+		OTSprite s = OT.Sprite(name);
+		if (s!=null)
+			return OT.Over(s);
+		
+		OTObject o = OT.ObjectByName(name);
+		if (o!=null)
+			return OT.Over(o);
+				
+		GameObject g = GameObject.Find(name);
+		if (g!=null)
+			return OT.Over(g);
+		return false;
+    }
+	
     /// <summary>
     /// Checks if we are over a specific GameObject
     /// </summary>
@@ -1021,7 +1053,7 @@ public class OT : MonoBehaviour
 		if (o==null) return false;
 		return Over(o.gameObject);
     }
-
+		
     /// <summary>
     /// Checks if we clicked the mouse with a specific button on a GameObject
     /// </summary>
@@ -1926,22 +1958,25 @@ public class OT : MonoBehaviour
         for (int f = 0; f < _foundObjects.Count; f++)
         {
             OTObject o = _foundObjects[f];
-			if (OT.world == World.WorldTopDown2D)
+			if (o.visible)
 			{
-	            if (-o.otCollider.transform.position.y<=depth)
+				if (OT.world == World.WorldTopDown2D)
+				{
+		            if (-o.otCollider.transform.position.y<=depth)
+		            {
+		                hitObject = o;
+		                hit = hits[f];
+		                depth = -o.otCollider.transform.position.y;
+		            }
+				}
+				else
+	            if (o.otCollider.transform.position.z<=depth)
 	            {
 	                hitObject = o;
 	                hit = hits[f];
-	                depth = -o.otCollider.transform.position.y;
+	                depth = o.otCollider.transform.position.z;
 	            }
 			}
-			else
-            if (o.otCollider.transform.position.z<=depth)
-            {
-                hitObject = o;
-                hit = hits[f];
-                depth = o.otCollider.transform.position.z;
-            }
         }
         return hitObject;
     }
@@ -2020,7 +2055,18 @@ public class OT : MonoBehaviour
         o.position = pos;
         o.dragObject.HandleDrag("drag", null);
     }
-
+	
+	void _CancelDrag(OTObject dragObject)
+	{
+		OTDragObject o = OTDragObject.ByObject(dragObject);
+		if (o!=null)
+		{
+			dragObject.HandleDrag("cancel", null);
+			OTDragObject.Remove(o);		
+			maybeObject = null;
+		}
+	}
+	
 	void DragControl(OTObject dragObject)
 	{
 		if (!OTDragObject.Dragging(dragObject))
@@ -2626,7 +2672,8 @@ public class OT : MonoBehaviour
             if (pool!=null)
                 g.transform.parent = pool.transform;
             OTObject o = g.GetComponent<OTObject>();
-			RemoveObject(o);
+			if (o!=null)
+				RemoveObject(o);
             if (o != null)
                 o.name = g.name;
             gObjects.Add(g);

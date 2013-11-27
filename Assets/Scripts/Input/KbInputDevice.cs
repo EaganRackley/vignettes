@@ -37,6 +37,7 @@ public class KbInputDevice : AbstractInputDevice
 		}
 		else if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow)) 
 		{
+			myInputData.JumpState = JUMP_STATE.INACTIVE;
 			myInputData.Magnitude = 1.0f;
 			myInputData.Angle = Common.DownAngleMid;
 		}
@@ -45,7 +46,7 @@ public class KbInputDevice : AbstractInputDevice
 			myInputData.Magnitude = 0.0f;
 		}
 
-		if (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.E)) 
+		if ( Input.GetKey(KeyCode.LeftControl) ) 
 		{
 			myInputData.JumpState = JUMP_STATE.ACTIVE;
 		}
@@ -53,5 +54,16 @@ public class KbInputDevice : AbstractInputDevice
 		{
 			myInputData.JumpState = JUMP_STATE.INACTIVE;
 		}
+
+
+		if ( Input.GetKey(KeyCode.Space) ) 
+		{
+			myInputData.ActionState = ACTION_STATE.ACTIVE;
+		}
+		else
+		{
+			myInputData.ActionState = ACTION_STATE.INACTIVE;
+		}
+		
 	}
 }

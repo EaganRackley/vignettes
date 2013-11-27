@@ -240,6 +240,20 @@ public class OTSound
 		if (OTSounds.instance.lookup.ContainsKey(_name))
 			 soundClip = OTSounds.instance.lookup[_name];	
 		
+		if (soundClip == null)
+		{
+			AudioClip audio = Resources.Load("sounds/"+_name, typeof(AudioClip)) as AudioClip;
+			if (audio==null) audio = Resources.Load("Sounds/"+_name, typeof(AudioClip)) as AudioClip;
+			if (audio!=null)
+			{
+				soundClip = new OTSoundClip();
+				soundClip.name = _name;
+				soundClip.clip = audio;
+				System.Array.Resize<OTSoundClip>(ref OTSounds.instance.soundClips,OTSounds.instance.soundClips.Length+1);
+				OTSounds.instance.soundClips[OTSounds.instance.soundClips.Length-1] = soundClip;
+			}
+		}		
+		
 		if (soundClip !=null)
 			InitSound();
 	}
