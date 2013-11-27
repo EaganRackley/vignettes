@@ -4,7 +4,7 @@ using mms.items;
 using mms.common;
 using mms.input;
 
-
+[RequireComponent (typeof (AudioClip))]
 public class PickupItemScript : MonoBehaviour, IQuestItem {
 
 	// Public properties used only for initialization!
@@ -19,6 +19,7 @@ public class PickupItemScript : MonoBehaviour, IQuestItem {
 	private bool m_Obtained = false;
 	private bool m_LastState = false;
 	private InputProvider m_InputProvider;
+	private Collider m_HidingTarget; 
 
 	// Private associations
 	private TextMesh m_TextMesh;
@@ -51,13 +52,14 @@ public class PickupItemScript : MonoBehaviour, IQuestItem {
 		}
 	}
 
-
 	void OnTriggerStay( Collider other )
 	{
 		if (other.tag == Common.PLAYER_TAG) 
 		{
+			m_HidingTarget = other;
 			if( (!m_Obtained) && (PlayerHasPressedActionKey()) )
 			{
+				this.audio.Play();		
 				m_Obtained = true;
 				StartCoroutine( HideItem() );
 			}
@@ -113,10 +115,11 @@ public class PickupItemScript : MonoBehaviour, IQuestItem {
 	{
 		// Scale our item until it seems to have vanished...
 		Vector3 size = transform.localScale;
+		Vector3 position = transform.position;
 		bool finishedHiding = false;
 		while( !finishedHiding )
 		{
-			 float scalePerSecond = 1.00f * Time.deltaTime;
+			float scalePerSecond = 1.00f * Time.deltaTime;
 			if(size.x > 0.0f ) size.x -= scalePerSecond;
 			if(size.y > 0.0f ) size.y -= scalePerSecond;
 			if(size.z > 0.0f ) size.z -= scalePerSecond;
@@ -125,6 +128,10 @@ public class PickupItemScript : MonoBehaviour, IQuestItem {
 			{
 				finishedHiding = true;
 			}
+
+			position = Vector3.Lerp(this.transform.position, m_HidingTarget.gameObject.transform.position, (1.0f - size.x));
+			this.transform.position = position;
+
 			yield return true;
 		}
 	}
