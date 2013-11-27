@@ -1,0 +1,10 @@
+C:\Users\Eagan\Dropbox\MismatchedSocks\MMSGame\Temp\bin\Debug\Assembly-CSharp-firstpass.dll
+C:\Users\Eagan\Dropbox\MismatchedSocks\MMSGame\Temp\bin\Debug\Assembly-CSharp-firstpass.pdb
+C:\Users\Eagan\Dropbox\MismatchedSocks\MMSGame\Temp\bin\Debug\Ionic.Zip.Reduced.dll
+C:\Users\Eagan\Dropbox\MismatchedSocks\MMSGame\Temp\bin\Debug\JsonFx.Json.dll
+C:\Users\Eagan\Dropbox\MismatchedSocks\MMSGame\Temp\bin\Debug\UnityEditor.dll
+C:\Users\Eagan\Dropbox\MismatchedSocks\MMSGame\Temp\bin\Debug\UnityEngine.dll
+C:\Users\Eagan\Dropbox\MismatchedSocks\MMSGame\Temp\bin\Debug\nunit.framework.dll
+C:\Users\Eagan\Dropbox\MismatchedSocks\MMSGame\obj\Debug\Assembly-CSharp-firstpass-vs.csprojResolveAssemblyReference.cache
+C:\Users\Eagan\Dropbox\MismatchedSocks\MMSGame\obj\Debug\Assembly-CSharp-firstpass.dll
+C:\Users\Eagan\Dropbox\MismatchedSocks\MMSGame\obj\Debug\Assembly-CSharp-firstpass.pdb
